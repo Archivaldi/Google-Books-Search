@@ -1,5 +1,7 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
+
+import SavedBooks from "./SavedBooks"
 
 const Header = () =>
     (
@@ -8,7 +10,7 @@ const Header = () =>
                 <div className="nav-wrapper">
                     <Link to={"/"} className="brand-logo" style={{ marginLeft: "25px", fontSize: 30 }}>Main Page</Link>
                     <ul id="nav-mobile" className="right hide-on-med-and-down">
-                        <li><Link to={"/savedBooks"} style={{ fontSize: "30px", marginRight: 25 }}>Saved</Link></li>
+                        <li><Link to={"/savedBooks"} style={{ fontSize: "30px", marginRight: 25 }}  component={SavedBooks}>Saved</Link></li>
                     </ul>
 
                 </div>
