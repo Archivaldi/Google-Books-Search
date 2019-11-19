@@ -12,19 +12,30 @@ class Home extends Component {
     }
 
     saveBook = (id) => {
-        let book_info = [];
+        let book_info = {};
         for (let i = 0; i < this.state.items.length; i++) {
             if (this.state.items[i].id === id) {
                 book_info = this.state.items[i]
             }
         }
-        let saved_book = {
-            title: book_info.volumeInfo.title,
-            img: book_info.volumeInfo.imageLinks.thumbnail,
-            description: book_info.volumeInfo.description,
-            authors: book_info.volumeInfo.authors,
-            price: book_info.saleInfo.listPrice.amount,
-            link: book_info.saleInfo.buyLink
+        let saved_book = {}
+
+        if (book_info.saleInfo.listPrice && book_info.saleInfo){
+             saved_book = {
+                title: book_info.volumeInfo.title,
+                img: book_info.volumeInfo.imageLinks.thumbnail,
+                description: book_info.volumeInfo.description,
+                authors: book_info.volumeInfo.authors,
+                price: book_info.saleInfo.listPrice.amount,
+                link: book_info.saleInfo.buyLink
+        }
+        } else {
+             saved_book = {
+                title: book_info.volumeInfo.title,
+                img: book_info.volumeInfo.imageLinks.thumbnail,
+                description: book_info.volumeInfo.description,
+                authors: book_info.volumeInfo.authors,
+
         }
         fetch(`/saveBook`, {
             headers: {
@@ -35,6 +46,7 @@ class Home extends Component {
             body: JSON.stringify({ saved_book })
         })
     }
+}
 
     takeBook = () => {
         let book = document.getElementById("bookName").value
@@ -49,6 +61,7 @@ class Home extends Component {
             .then(r => r.json())
             .then(r => {
                 let items = r.items;
+                console.log(items)
                 this.setState({ items }, () => {
                 })
 
