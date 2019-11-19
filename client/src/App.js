@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom"
+import {Route, Switch, BrowserRouter as Router } from "react-router-dom"
+
+import Book from "./components/Book";
+import Header from "./components/Header";
 
 class App extends Component {
   constructor() {
@@ -27,7 +30,7 @@ class App extends Component {
         debugger;
 
         let items = r.items;
-        
+
         this.setState({ items }, () => {
           // console.log(r.items)
           debugger;
@@ -39,20 +42,13 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.items.length == 0) {
+    if (this.state.items.length === 0) {
       return (
         <Router>
-          <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-              </ul>
-            </nav>
+          <div className="container">
+            <Header takeBook={this.takeBook} />
             <Switch>
               <Route path="/">
-                <Home takeBook={this.takeBook} />
               </Route>
             </Switch>
           </div>
@@ -60,46 +56,30 @@ class App extends Component {
       );
     } else {
       return (
-        <div>
+        <div className="container">
           <Router>
             <div>
-              <nav>
-                <ul>
-                  <li>
-                    <Link to="/">Home</Link>
-                  </li>
-                </ul>
-              </nav>
+              <Header takeBook={this.takeBook} />
               <Switch>
                 <Route path="/">
-                  <Home takeBook={this.takeBook} />
                 </Route>
               </Switch>
             </div>
           </Router>
-          
-          {this.state.items.map((x) => 
-            <p key={x.id}>
-              <img alt={x.volumeInfo.title} src={x.volumeInfo.imageLinks.thumbnail} /> <br />
-             {x.volumeInfo.title} <br />
-             {x.volumeInfo.authors} <br />
-             {x.saleInfo.buyLink} <br />
-             {x.saleInfo.country} <br />
-            </p>
-          )}
+
+          {this.state.items.map((x) =>
+
+            <Book
+              key={x.id}
+              volumeInfo={x.volumeInfo}
+              saleInfo={x.saleInfo}
+            />)}
 
         </div>
       )
     }
   }
 }
-
-const Home = (props) => (
-  <div>
-    <h1>Home</h1>
-    <input id="bookName"></input> <button onClick={props.takeBook}>Search</button>
-  </div>
-)
 
 
 export default App
