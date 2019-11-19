@@ -29,127 +29,60 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get("/", (req,res) => {
-    request('https://www.googleapis.com/books/v1/volumes?q=1984', function (error, response, body) {
-        if (error) {
-            console.log(error)
-        } else {
-            res.json(body)
-        }
-    });
-})
-
-
 
 app.post("/getBookInfo", (req, res) => {
     let book = req.body.book
-    console.log(book)
-    request('https://www.googleapis.com/books/v1/volumes?q=' + book, function (error, response, body) {
+    request('https://www.googleapis.com/books/v1/volumes?q=' + book + "&projection=full&filter=ebooks", function (error, response, body) {
         if (error) {
             console.log(error)
-            res.json({error: true})
+            res.json({ error: true })
         } else {
             res.json(JSON.parse(body))
         }
     });
-})
+});
 
-app.post('/jokes', function (req, res) {
+app.post("/saveBook", (req, res) => {
     var valid = true;
-    //validation first
-    // var valid = false;
-
-    // var isOnlyOneKey = Object.keys(req.body).length == 1;
-    // var onlyNameKey = Object.keys(req.body)[0] == 'name';
-    // var isLessThan1000Chars = Object.values(req.body)[0].length <= 1000;
-
-    // valid = isOnlyOneKey && onlyNameKey && isLessThan1000Chars;
-
     if (valid) {
-        db.jokes.insert(req.body, function (error, savedJoke) {
-            // Log any errors
+        let saved_book = req.body.saved_book;
+        db.books.insert(saved_book, function (error, saved_book) {
             if (error) {
                 res.send(error);
             } else {
-                res.json(savedJoke);
+                res.json(saved_book);
             }
-        });
+        })
     } else {
         res.json({
             error: 'data was not valid'
         })
     }
-});
+})
 
-app.get('/jokes/:id', function (req, res) {
-    var joke_id = req.params.id;
-
-    db.jokes.find({
-        "_id": mongojs.ObjectID(joke_id)
-    }, function (error, joke) {
+app.get("/getBooks", function (req, res) {
+    db.books.find({}, function (books, error) {
         if (error) {
-            res.send(error);
+            res.send(error)
         } else {
-            res.json(joke);
+            res.send(books)
         }
-    });
+    })
+})
 
-});
-
-// localhost:3001/jokes/f2348hf23hfhhf
-app.delete('/jokes/:id', function (req, res) {
-    var joke_id = req.params.id;
-
-    db.jokes.remove({
-        "_id": mongojs.ObjectID(joke_id)
+app.post("/deleteBook", (req, res) => {
+    let id = req.body.id
+    console.log(id)
+    db.books.remove({
+        "_id": mongojs.ObjectID(id)
     }, function (error, removed) {
         if (error) {
             res.send(error);
         } else {
-            res.json(joke_id);
+            res.json(id);
         }
     });
-
-});
-
-app.put('/jokes/:id', function (req, res) {
-    var joke_id = req.params.id; //what package allows us to do this? by default from express - this allows us to access hard coded parts of the url
-    var joke = req.body; //what package allows us to do this? body parser
-
-    db.jokes.findAndModify({
-        query: {
-            "_id": mongojs.ObjectId(joke_id)
-        },
-        update: {
-            $set: {
-                "name": req.body.name
-            }
-        },
-        new: true
-    }, function (err, updatedJoke) {
-        res.json(updatedJoke);
-    });
-
-});
-
-app.put("/jokes/votes/:id/:direction", function (req, res) {
-
-    var voteChange = 0;
-
-    if (req.params.direction == 'up') voteChange = 1;
-    else voteChange = -1;
-
-    //this is wrong I want to grab the current votes and increment by 1
-    db.jokes.findAndModify({
-        query: {
-            "_id": mongojs.ObjectId(req.params.id)
-        },
-        update: { $inc: { votes: voteChange } },
-        new: true
-    }, function (err, editedJoke) {
-        res.json(editedJoke);
-    });
-});
+})
 
 
 

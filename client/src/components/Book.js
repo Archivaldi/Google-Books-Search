@@ -20,7 +20,7 @@ const Book = (props) =>
                         <div className="card-action">
                             <p> ${props.saleInfo.listPrice.amount} </p>
                             <p>
-                                <a style={{display: "inline-block"}} href={props.saleInfo.buyLink}>Buy</a>
+                                <a target="_blank" rel="nonopener nonreferrer"  style={{display: "inline-block"}} href={props.saleInfo.buyLink}>Buy</a>
                                 <button onClick={props.saveBook} style={{ backgroundColor: "#1387ff", display: "inline-block" }} className="btn-floating btn-large waves-effect waves-light right">Save</button>
                             </p>
                         </div>

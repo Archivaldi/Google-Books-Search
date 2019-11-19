@@ -19,7 +19,8 @@ const SavedBook = (props) =>
                         <div className="card-action">
                             <p> ${props.price} </p>
                             <p>
-                                <a style={{ display: "inline-block" }} href={props.link}>Buy</a>
+                                <a target="_blank" rel="nonopener nonreferrer" style={{ display: "inline-block" }} href={props.link}>Buy</a>
+                                <button onClick={props.deleteBook} style={{ backgroundColor: "#1387ff", display: "inline-block" }} className="btn-floating btn-large waves-effect waves-light right">Delete</button>
                             </p>
                         </div>
                     </div>

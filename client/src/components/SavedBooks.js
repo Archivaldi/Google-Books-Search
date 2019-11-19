@@ -1,7 +1,6 @@
 import React from "react";
 
-import Header from "./Header"
-import SavedBook from "./SavedBook"
+import SavedBook from "./SavedBook";
 
 class SavedBooks extends React.Component {
     constructor() {
@@ -11,34 +10,59 @@ class SavedBooks extends React.Component {
         }
     }
 
+    deleteBook = (id) => {
+        fetch('/deleteBook', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({ id })
+        })
+            .then(
+                fetch("/getBooks")
+                    .then(r => r.json())
+                    .then(books => this.setState({ books }))
+            )
+    }
+    
     componentDidMount() {
         fetch("/getBooks")
-            .then(r => r.json)
-            .then(r => this.setState({ books: r }))
+            .then(r => r.json())
+            .then(books => this.setState({ books }))
     }
 
     render() {
-        if (this.state.books === 0) {
+        if (this.state.books.length === 0) {
             return (
                 <div>
-                    <Header />
-                    <h1>You do not have saved books</h1>
+                    <div className="center-align">
+                        <h1>(React) Google Books Search</h1>
+                        <h3>Search for and Save Books of Interest</h3>
+                    </div>
+                    <div>
+                        <h1 className="center-align">You do not have saved books</h1>
+                    </div>
                 </div>
             )
         } else {
             return (
                 <div>
-                    <Header />
-                    {this.state.books.map((x) =>
+                     <div className="center-align">
+                        <h1>(React) Google Books Search</h1>
+                        <h3>Search for and Save Books of Interest</h3>
+                    </div>
+                    {this.state.books.map(book =>
 
                         <SavedBook
-                            key={x.id}
-                            title={x.title}
-                            img={x.img}
-                            description={x.description}
-                            authors={x.authors}
-                            price={x.price}
-                            link={x.link}
+                            key={book.id}
+                            title={book.title}
+                            img={book.img}
+                            description={book.description}
+                            authors={book.authors}
+                            price={book.price}
+                            link={book.link}
+                            deleteBook={() => this.deleteBook(book._id)}
                         />)}
                 </div>
             )
