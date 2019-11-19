@@ -3,6 +3,7 @@ import {Route, Switch, BrowserRouter as Router } from "react-router-dom"
 
 import Book from "./components/Book";
 import Header from "./components/Header";
+import Search from "./components/Search"
 
 class App extends Component {
   constructor() {
@@ -14,9 +15,7 @@ class App extends Component {
   }
 
   takeBook = () => {
-    debugger;
     let book = document.getElementById("bookName").value
-    console.log(book)
     fetch('/getBookInfo', {
       headers: {
         'Accept': 'application/json',
@@ -27,15 +26,8 @@ class App extends Component {
     })
       .then(r => r.json())
       .then(r => {
-        debugger;
-
         let items = r.items;
-
         this.setState({ items }, () => {
-          // console.log(r.items)
-          debugger;
-
-          console.log(this.state.items);
         })
 
       })
@@ -46,7 +38,8 @@ class App extends Component {
       return (
         <Router>
           <div className="container">
-            <Header takeBook={this.takeBook} />
+            <Header />
+            <Search takeBook={this.takeBook}  />
             <Switch>
               <Route path="/">
               </Route>
@@ -59,7 +52,8 @@ class App extends Component {
         <div className="container">
           <Router>
             <div>
-              <Header takeBook={this.takeBook} />
+              <Header />
+              <Search takeBook={this.takeBook}  />
               <Switch>
                 <Route path="/">
                 </Route>

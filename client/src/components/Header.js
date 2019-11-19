@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-const Header = props =>
+const Header = () =>
     (
         <div>
             <nav style={{ backgroundColor: "#1387ff" }}>
@@ -13,14 +13,6 @@ const Header = props =>
 
                 </div>
             </nav>
-            <div>
-                <div className="center-align">
-                    <h1>(React) Google Books Search</h1>
-                    <h3>Search for and Save Books of Interest</h3>
-                </div>
-                <input style={{ width: "25%", fontSize: 30 }} placeholder="Book title" id="bookName"></input>
-                <button onClick={props.takeBook} class="btn waves-effect waves-light btn-large" type="submit" style={{ fontSize: 30, margin: 30, backgroundColor: "#1387ff" }}>Search</button>
-            </div>
         </div>
 
     )
