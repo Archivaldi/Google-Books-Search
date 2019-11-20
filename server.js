@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var PORT = process.env.PORT || 3001;
 var app = express();
+var path = require("path");
 
 
 // set the app up with bodyparser
