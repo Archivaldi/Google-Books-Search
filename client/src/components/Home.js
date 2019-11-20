@@ -18,6 +18,7 @@ class Home extends Component {
                 book_info = this.state.items[i]
             }
         }
+
         let saved_book = {}
 
         if (book_info.saleInfo.listPrice && book_info.saleInfo){
@@ -35,8 +36,8 @@ class Home extends Component {
                 img: book_info.volumeInfo.imageLinks.thumbnail,
                 description: book_info.volumeInfo.description,
                 authors: book_info.volumeInfo.authors,
-
-        }
+             }
+            }
         fetch(`/saveBook`, {
             headers: {
                 'Accept': 'application/json',
@@ -45,7 +46,6 @@ class Home extends Component {
             method: "POST",
             body: JSON.stringify({ saved_book })
         })
-    }
 }
 
     takeBook = () => {
