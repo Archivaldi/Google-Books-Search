@@ -29,11 +29,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get("/", (req,res) => {
-    res.send("server is working")
-})
-
-
 app.post("/getBookInfo", (req, res) => {
     let book = req.body.book
     request('https://www.googleapis.com/books/v1/volumes?q=' + book + "&projection=full&filter=ebooks", function (error, response, body) {
