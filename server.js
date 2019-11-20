@@ -29,6 +29,10 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.get("/", (req,res) => {
+    res.send("server is working")
+})
+
 
 app.post("/getBookInfo", (req, res) => {
     let book = req.body.book
