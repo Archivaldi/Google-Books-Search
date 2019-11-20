@@ -6,7 +6,8 @@
   "scripts": {
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
-    "start": "node server"
+    "start": "node server",
+    "clientStart": "cd client && npm start"
   },
   "repository": {
     "type": "git",
