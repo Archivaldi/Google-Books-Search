@@ -30,12 +30,12 @@ app.use(function (req, res, next) {
     next();
 });
 
-if (process.env.NODE_ENV === "production"){
+if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "./client/build")))
 };
 
-if (process.env.NODE_ENV === "production"){
-    app.get("*", (req,res) => {
+if (process.env.NODE_ENV === "production") {
+    app.get("*", (req, res) => {
         res.sendFile(path.join(__dirname, "./client/build/index.html"))
     })
 }
@@ -56,13 +56,31 @@ app.post("/saveBook", (req, res) => {
     var valid = true;
     if (valid) {
         let saved_book = req.body.saved_book;
-        db.books.insert(saved_book, function (error, saved_book) {
-            if (error) {
-                res.send(error);
-            } else {
-                res.json(saved_book);
-            }
-        })
+        if (saved_book.link && saved_book.price) {
+            let title = saved_book.title;
+            let img = saved_book.img;
+            let description = saved_book.description;
+            let authors = saved_book.authors;
+            let price = saved_book.price;
+            let link = saved_book.link;
+            let id = saved_book.id
+            db.books.update(
+                { id },
+                { $set: { title, img, description, authors, price, link, id } },
+                { upsert: true },
+            );
+        } else {
+            let title = saved_book.title;
+            let img = saved_book.img;
+            let description = saved_book.description;
+            let id = saved_book.id
+            let authors = saved_book.authors;
+            db.books.update(
+                { id },
+                { $set: { title, img, description, authors, id } },
+                { upsert: true },
+            );
+        }
     } else {
         res.json({
             error: 'data was not valid'
