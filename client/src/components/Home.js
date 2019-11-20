@@ -28,7 +28,8 @@ class Home extends Component {
                 description: book_info.volumeInfo.description,
                 authors: book_info.volumeInfo.authors,
                 price: book_info.saleInfo.listPrice.amount,
-                link: book_info.saleInfo.buyLink
+                link: book_info.saleInfo.buyLink,
+                id: book_info.id
         }
         } else {
              saved_book = {
@@ -36,6 +37,7 @@ class Home extends Component {
                 img: book_info.volumeInfo.imageLinks.thumbnail,
                 description: book_info.volumeInfo.description,
                 authors: book_info.volumeInfo.authors,
+                id: book_info.id
              }
             }
         fetch(`/saveBook`, {

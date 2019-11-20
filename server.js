@@ -29,6 +29,10 @@ app.use(function (req, res, next) {
     next();
 });
 
+if (process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(__dirname, "../client/build")))
+};
+
 app.post("/getBookInfo", (req, res) => {
     let book = req.body.book
     request('https://www.googleapis.com/books/v1/volumes?q=' + book + "&projection=full&filter=ebooks", function (error, response, body) {
