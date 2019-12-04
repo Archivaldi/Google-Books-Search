@@ -11,7 +11,7 @@ Full Stack Web App that uses Google-Books API for searching information about bo
 
 User is allowed to save a books that he/she likes for the future. We use MongoDB for that feature. User is allowed to delete books from database as well.
 
-Full Stuck Web app that was created with:
+This app was created with:
 
 * HTML
 * JavaScript
