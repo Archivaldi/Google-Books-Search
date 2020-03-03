@@ -51,24 +51,14 @@ app.post("/saveBook", (req, res) => {
     if (valid) {
         let saved_book = req.body.saved_book;
         if (saved_book.link && saved_book.price) {
-            let title = saved_book.title;
-            let img = saved_book.img;
-            let description = saved_book.description;
-            let authors = saved_book.authors;
-            let price = saved_book.price;
-            let link = saved_book.link;
-            let id = saved_book.id
+            let {title, img, description, authors, price, link, id} = saved_book;
             db.books.update(
                 { id },
                 { $set: { title, img, description, authors, price, link, id } },
                 { upsert: true },
             );
         } else {
-            let title = saved_book.title;
-            let img = saved_book.img;
-            let description = saved_book.description;
-            let id = saved_book.id
-            let authors = saved_book.authors;
+            let {title, img, description, authors, id} = saved_book;
             db.books.update(
                 { id },
                 { $set: { title, img, description, authors, id } },
@@ -93,8 +83,7 @@ app.get("/getBooks", function (req, res) {
 })
 
 app.post("/deleteBook", (req, res) => {
-    let id = req.body.id
-    console.log(id)
+    let id = req.body.id;
     db.books.remove({
         "_id": mongojs.ObjectID(id)
     }, function (error, removed) {
